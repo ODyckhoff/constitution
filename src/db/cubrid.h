@@ -1,0 +1,6 @@
+#ifndef __CONSTITUTION_DB_CUBRID_H
+#define __CONSTITUTION_DB_CUBRID_H
+
+
+
+#endif /* __CONSTITUTION_DB_CUBRID_H */

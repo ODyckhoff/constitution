@@ -31,6 +31,7 @@ int db_connect( db_opts *dbo ) {
 }
 
 void db_handler( db_opts *dbo ) {
+
     switch( dbo->driver ) {
         case DB_MYSQL:
             /* MySQL Handler */
@@ -44,7 +45,29 @@ void db_handler( db_opts *dbo ) {
         case DB_POSTGRES:
             /* PostGreSQL Handler */
         break;
+        case DB_CUBRID:
+            /* CUBRID Handler */
+        break;
+        case DB_MSSQL:
+            /* MS SQL Handler */
+        break;
+        case DB_FIREBIRD:
+            /* Firebird Handler */
+        break;
+        case DB_IBM:
+            /* IBM Handler */
+        break;
+        case DB_INFORMIX:
+            /* Informix Handler */
+        break;
+        case DB_ODBC:
+            /* ODBC Handler */
+        break;
+        case DB_4D:
+            /* 4D Handler */
+        break;
     }
+
 }
 
 /* Helper functions. */
