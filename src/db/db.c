@@ -1,12 +1,19 @@
 /* db.c - Database Handler for the constitution framework. */
 
-#include "db/db.h"
 #include "err/err.h"
 
+#include "db/db.h"
 #include "db/mysql.h"
 #include "db/sqlite.h"
 #include "db/oracle.h"
 #include "db/postgres.h"
+#include "db/cubrid.h"
+#include "db/mssql.h"
+#include "db/firebird.h"
+#include "db/ibm.h"
+#include "db/informix.h"
+#include "db/odbc.h"
+#include "db/4d.h"
 
 /* Core functions. */
 int db_init( db_opts *dbo ) {
