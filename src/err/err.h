@@ -1,0 +1,6 @@
+#ifndef __CONSTITUTION_ERR_H
+#define __CONSTITUTION_ERR_H
+
+
+
+#endif /* __CONSTITUTION_ERR_H */

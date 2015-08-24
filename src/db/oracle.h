@@ -1,0 +1,6 @@
+#ifndef __CONSTITUTION_DB_ORACLE_H
+#define __CONSTITUTION_DB_ORACLE_H
+
+
+
+#endif /* __CONSTITUTION_DB_ORACLE_H */

@@ -1,5 +1,5 @@
-#ifndef __DB_H
-#define __DB_H
+#ifndef __CONSTITUTION_DB_H
+#define __CONSTITUTION_DB_H
 
 typedef enum {
     DB_MYSQL,
@@ -21,4 +21,4 @@ typedef struct _db_opts {
 
 } db_opts;
 
-#endif /* __DB_H */
+#endif /* __CONSTITUTION_DB_H */
