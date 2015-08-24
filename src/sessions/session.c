@@ -49,4 +49,5 @@ int session_deserialise( ) {
 
 char *session_keyhash( ) {
     /* Generate a session id. */
+    
 }
