@@ -29,7 +29,7 @@ and it will take care of compiling all the necessary bits to make the dispatcher
 or:
     `export QUERY_STRING=help`
 
-and you will be greeted with some placeholder text letting you know that the correct function was dispatched.
+to set the query string, then type `./cnstn_exec` and you will be greeted with some placeholder text letting you know that the correct function was dispatched.
 
 Thanks!
 *Owen R. Dyckhoff*
