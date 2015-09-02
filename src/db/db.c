@@ -114,7 +114,7 @@ void db_setstatus( db_opts *dbo, db_status status ) {
 void db_setop( db_opts *dbo, db_op op, void *data ) {
     /* Set the database object action. CONN, QUERY, DCONN */
     dbo->operation = op;
-    if( dbo->op == DB_QUERY && data == NULL ) {
+    if( dbo->operation == DB_QUERY && data == NULL ) {
         /* ENODATA or some such */
         return;
     }
