@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include "_dispatch.h"
 
+#include "globalopts.h"
+
 int main( void ) {
 
     dispatch( getenv( "QUERY_STRING" ) );

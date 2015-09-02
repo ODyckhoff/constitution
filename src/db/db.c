@@ -16,17 +16,25 @@
 #include "db/4d.h"
 
 /* Core functions. */
-int db_init( db_opts *dbo ) {
+db_opts *db_init( ) {
     /* Initialise a database object. */
+    db_opts *dbo = malloc( sizeof( db_opts ) );
+
     if( dbo == NULL ) return EDBNULL;
 
     db_setstatus( dbo, DB_NONE );
-    return EXIT_SUCCESS;
+    return dbo;
 }
 
 int db_free( db_opts *dbo ) {
     /* Free a database object */
-    
+
+    /* First free bits inside dbo... */
+    free( dbo->user );
+    free( dbo->pass );
+    free( dbo->host );
+    free( dbo->dbname );
+    free( dbo );
     return EXIT_SUCCESS;
 }
 
@@ -34,6 +42,21 @@ int db_connect( db_opts *dbo ) {
     if( dbo->status == DB_NONE   ) return EDBNOCONN;
     if( dbo->status == DB_CLOSED ) return EDBCLOSED;
 
+    if( dbo->user == NULL ) {
+        if( FAIL_ON_NULL_USER ) {
+            /* Some error stuff. */
+            return 1;
+        }
+        dbo->user = malloc( 5 * sizeof( char ) );
+        strcpy( dbo->user, "root\0" );
+    }
+
+    if( dbo->host == NULL ) {
+        dbo->host = malloc( 10 * sizeof( char ) );
+        strcpy( dbo->host, "localhost\0" );
+    }
+
+    db_setop( dbo, CONNECT );
     return EXIT_SUCCESS; 
 }
 
@@ -42,6 +65,7 @@ void db_handler( db_opts *dbo ) {
     switch( dbo->driver ) {
         case DB_MYSQL:
             /* MySQL Handler */
+            mysql_handler( dbo );
         break;
         case DB_SQLITE:
             /* SQLite Handler */
@@ -74,7 +98,6 @@ void db_handler( db_opts *dbo ) {
             /* 4D Handler */
         break;
     }
-
 }
 
 /* Helper functions. */
@@ -88,4 +111,22 @@ void db_setstatus( db_opts *dbo, db_status status ) {
     dbo->status = status;
 }
 
+void db_setop( db_opts *dbo, db_op op, void *data ) {
+    /* Set the database object action. CONN, QUERY, DCONN */
+    dbo->operation = op;
+    if( dbo->op == DB_QUERY && data == NULL ) {
+        /* ENODATA or some such */
+        return;
+    }
 
+    db->data = data;
+}
+
+void db_setdbdata( db_opts *dbo, 
+                   char *user, char *pass, 
+                   char *host, char *dbname ) {
+    dbo->user   = user;
+    dbo->pass   = pass;
+    dbo->host   = host;
+    dbo->dbname = dbname;
+}
