@@ -1,2 +1,0 @@
-{ "help", cmd_help },
-{ "index", cmd_index },

@@ -22,7 +22,7 @@ dispatch:
 	@printf "#endif\n" >> src/_dispatch.h
 	
 	@find views/ -name "*.h" | sed 's/views\/\(.*\)\.h/{ "\1", cmd_\1 },/' > src/_tmp
-	@printf "#include \"_dispatch.h\"\n" > src_/dispatch.c"
+	@printf "#include \"_dispatch.h\"\n" > src/_dispatch.c
 	
 	@printf "struct dispatch_table dispatcher[%d] = {\n" $(NUMVIEWS) >> src/_dispatch.c
 	@cat src/_tmp | sed 's/^/    /' >> src/_dispatch.c
