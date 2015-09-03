@@ -4,7 +4,7 @@
 
 void sendresponse( http_t *http ) {
     
-    char httpfrmt[] = "Content-Type: %s;charset=utf-8\n\n\n%s\r\n";
+    char httpfrmt[] = "Content-Type: %s;charset=utf-8\n\n%s";
 
     printf( httpfrmt, "text/html", http->data );
 }

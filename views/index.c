@@ -9,14 +9,14 @@ char *cmd_index( ) {
     char *buf;
 
     buf = malloc( 200 );
-    sprintf( buf, "this is the index page. hurrah\n" );
+    sprintf( buf, "this is the index page. hurrah<br />\n" );
 
     dbo = db_init( );
 
     db_setdriver( dbo, DRIVER );
     db_setdbdata( dbo, DBUSER, DBPASS, DBHOST, DBNAME );
     if( db_connect( dbo ) == EXIT_SUCCESS ) {
-        strcat( buf, "Woop! Got a DB connection.\n" );
+        strcat( buf, "Woop! Got a DB connection.<br />" );
     }
 
     return buf;
