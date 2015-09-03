@@ -2,3 +2,4 @@
 *.swp
 .gitignore
 index.cgi
+*dbopts.h
