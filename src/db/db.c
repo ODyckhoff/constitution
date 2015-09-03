@@ -1,5 +1,8 @@
 /* db.c - Database Handler for the constitution framework. */
 
+#include "globalopts.h"
+#include "dbopts.h"
+
 #include "err/err.h"
 
 #include "db/db.h"
@@ -23,6 +26,7 @@ db_opts *db_init( ) {
     if( dbo == NULL ) return EDBNULL;
 
     db_setstatus( dbo, DB_NONE );
+
     return dbo;
 }
 
@@ -39,7 +43,6 @@ int db_free( db_opts *dbo ) {
 }
 
 int db_connect( db_opts *dbo ) {
-    if( dbo->status == DB_NONE   ) return EDBNOCONN;
     if( dbo->status == DB_CLOSED ) return EDBCLOSED;
 
     if( dbo->user == NULL ) {
@@ -56,7 +59,11 @@ int db_connect( db_opts *dbo ) {
         strcpy( dbo->host, "localhost\0" );
     }
 
-    db_setop( dbo, CONNECT );
+    db_setop( dbo, DB_CONN, NULL );
+    db_handler( dbo );
+
+    db_setstatus( dbo, DB_ACTIVE );
+
     return EXIT_SUCCESS; 
 }
 
@@ -119,7 +126,7 @@ void db_setop( db_opts *dbo, db_op op, void *data ) {
         return;
     }
 
-    db->data = data;
+    dbo->data = data;
 }
 
 void db_setdbdata( db_opts *dbo, 

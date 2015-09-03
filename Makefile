@@ -1,6 +1,8 @@
 CC=gcc
-CFLAGS=-g -o cnstn_exec
-LDFLAGS=
+CFLAGS=-g -o cnstn_exec -I src/ -I . -I/usr/include/mysql/
+DFLAGS=-DVIEWPATH="\"views\""
+LDFLAGS=-L/usr/lib64/mysql -lmysqlclient -lz
+FILES=
 NUMVIEWS=`find views/ -name "*.h" | wc -l`
 
 # target: all - Default target.
@@ -31,4 +33,5 @@ dispatch:
 	
 	@rm src/_tmp
 	
-	@$(CC) $(CFLAGS) -DVIEWPATH="\"views\"" -DNUMVIEWS=$(NUMVIEWS) -I . src/main.c src/dispatch.c src/_dispatch.c views/*.c
+database:
+	@$(CC) $(CFLAGS) $(DFLAGS) -DNUMVIEWS=$(NUMVIEWS) src/main.c src/dispatch.c src/_dispatch.c views/*.c src/db/*.c $(LDFLAGS)

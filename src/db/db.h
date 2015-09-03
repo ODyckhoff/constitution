@@ -1,11 +1,16 @@
 #ifndef __CONSTITUTION_DB_H
 #define __CONSTITUTION_DB_H
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <mysql.h>
+
 typedef enum {
     DB_MYSQL,
     DB_SQLITE,
     DB_ORACLE,
-    DB_POSTGRES
+    DB_POSTGRES,
     DB_CUBRID,
     DB_MSSQL,
     DB_FIREBIRD,
@@ -43,5 +48,14 @@ typedef struct _db_opts {
     void *conn;
 
 } db_opts;
+
+db_opts *db_init( );
+int db_free( db_opts *dbo );
+int db_connect( db_opts *dbo );
+void db_handler( db_opts *dbo );
+void db_setdriver( db_opts *dbo, db_driver driver );
+void db_setstatus( db_opts *dbo, db_status status );
+void db_setop( db_opts *dbo, db_op op, void *data );
+void db_setdbdata( db_opts *dbo, char *user, char *pass, char *host, char *dbname );
 
 #endif /* __CONSTITUTION_DB_H */

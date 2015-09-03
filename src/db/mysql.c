@@ -1,4 +1,3 @@
-#include <mysql.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -6,6 +5,7 @@
 #include "db/mysql.h"
 
 void mysql_handler( db_opts *dbo ) {
+    printf("MySQL handler kicked in.\n");
 
     switch( dbo->operation ) {
         case DB_CONN:
@@ -14,7 +14,7 @@ void mysql_handler( db_opts *dbo ) {
     }
 }
 
-void db_mysqlconn( dbo ) {
+void db_mysqlconn( db_opts *dbo ) {
 
     MYSQL *conn = mysql_init( NULL );
     if( ! mysql_real_connect( 
@@ -27,8 +27,11 @@ void db_mysqlconn( dbo ) {
           )
     ) {
         /* Error stuff, mysql_error( conn ); */
+        fprintf( stderr, "Nope. Nada. Never. No. Negative. Nay. Niet. Nein. Oxi.\n" );
         return;
     }
+
+    printf( "Woop. Got a connection to the database!\n" );
 
     dbo->conn = conn;
 }
