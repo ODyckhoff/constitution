@@ -16,8 +16,10 @@ char *cmd_index( ) {
     db_setdriver( dbo, DRIVER );
     db_setdbdata( dbo, DBUSER, DBPASS, DBHOST, DBNAME );
     if( db_connect( dbo ) == EXIT_SUCCESS ) {
-        strcat( buf, "Woop! Got a DB connection.<br />" );
+        strcat( buf, "Woop! Got a DB connection.<br />\n" );
     }
+
+    strcat( buf, "<a href=\"./help\">Help Page.</a>" );
 
     return buf;
 }

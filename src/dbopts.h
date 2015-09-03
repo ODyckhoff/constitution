@@ -5,8 +5,8 @@
 
     #define DBUSER "root"
     #define DBHOST "localhost"
-    #define DBPASS "2R41RviX"
-    #define DBNAME "short"
+    #define DBPASS "password"
+    #define DBNAME "my_db"
 
     #define DRIVER DB_MYSQL
 
