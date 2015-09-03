@@ -3,10 +3,10 @@
 
 /* Local Database Options. */
 
-    #define DBUSER "user"
+    #define DBUSER "root"
     #define DBHOST "localhost"
-    #define DBPASS "hunter2"
-    #define DBNAME "mydb"
+    #define DBPASS "2R41RviX"
+    #define DBNAME "short"
 
     #define DRIVER DB_MYSQL
 

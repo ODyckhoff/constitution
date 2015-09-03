@@ -1,4 +1,5 @@
 *.o
 *.swp
 .gitignore
-cnstn_exec
+index.cgi
+src/dbopts.h

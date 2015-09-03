@@ -2,8 +2,10 @@
 
 #include "help.h"
 
-void cmd_help() {
+char *cmd_help( ) {
 
-    printf("this is the help page. hurrah\n");
+    char *buf = malloc( 50 );
+    sprintf( buf, "this is the help page. hurrah\n" );
 
+    return buf;
 }

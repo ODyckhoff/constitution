@@ -1,14 +1,12 @@
 CC=gcc
-CFLAGS=-g -o cnstn_exec -I src/ -I . -I/usr/include/mysql/
+CFLAGS=-g -o index.cgi -I src/ -I . -I/usr/include/mysql/
 DFLAGS=-DVIEWPATH="\"views\""
 LDFLAGS=-L/usr/lib64/mysql -lmysqlclient -lz
 FILES=
 NUMVIEWS=`find views/ -name "*.h" | wc -l`
 
 # target: all - Default target.
-all:
-	@echo "Hello $(LOGNAME), this project is incomplete. Use 'make help' to see available directives."
-
+all: dispatch database
 # target: help - Display callable targets.
 help:
 	@egrep "^# target:" [Mm]akefile
@@ -33,5 +31,5 @@ dispatch:
 	
 	@rm src/_tmp
 	
-database:
-	@$(CC) $(CFLAGS) $(DFLAGS) -DNUMVIEWS=$(NUMVIEWS) src/main.c src/dispatch.c src/_dispatch.c views/*.c src/db/*.c $(LDFLAGS)
+database: dispatch
+	@$(CC) $(CFLAGS) $(DFLAGS) -DNUMVIEWS=$(NUMVIEWS) src/main.c src/dispatch.c src/_dispatch.c views/*.c src/db/*.c src/response.c $(LDFLAGS)

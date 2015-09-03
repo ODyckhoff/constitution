@@ -4,15 +4,20 @@
 #include "db/db.h"
 #include "dbopts.h"
 
-void cmd_index() {
+char *cmd_index( ) {
     db_opts *dbo;
+    char *buf;
 
-    printf("this is the index page. hurrah\n");
+    buf = malloc( 200 );
+    sprintf( buf, "this is the index page. hurrah\n" );
 
     dbo = db_init( );
 
     db_setdriver( dbo, DRIVER );
     db_setdbdata( dbo, DBUSER, DBPASS, DBHOST, DBNAME );
-    db_connect( dbo );
+    if( db_connect( dbo ) == EXIT_SUCCESS ) {
+        strcat( buf, "Woop! Got a DB connection.\n" );
+    }
 
+    return buf;
 }

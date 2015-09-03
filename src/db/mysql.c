@@ -5,7 +5,6 @@
 #include "db/mysql.h"
 
 void mysql_handler( db_opts *dbo ) {
-    printf("MySQL handler kicked in.\n");
 
     switch( dbo->operation ) {
         case DB_CONN:
@@ -30,8 +29,6 @@ void db_mysqlconn( db_opts *dbo ) {
         fprintf( stderr, "Nope. Nada. Never. No. Negative. Nay. Niet. Nein. Oxi.\n" );
         return;
     }
-
-    printf( "Woop. Got a connection to the database!\n" );
 
     dbo->conn = conn;
 }

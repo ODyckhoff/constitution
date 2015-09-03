@@ -1,0 +1,8 @@
+RewriteEngine on  
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule (.*) /constitution/index.cgi?$1 [L,QSA]
+
+RewriteRule .*dbopts.h /constitution/index.cgi?403 [E=BADURI:dbopts.h,L,QSA]
+
+Options +ExecCGI
+AddHandler cgi-script .cgi

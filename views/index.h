@@ -3,8 +3,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
-void cmd_index();
+char *cmd_index( );
 
 #endif /* __CONSTITUTION_INDEX_H */
 
