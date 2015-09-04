@@ -1,6 +1,0 @@
-{ "help/legal", cmd_help_legal },
-{ "help/legal/termsofuse", cmd_help_legal_termsofuse },
-{ "404", cmd_404 },
-{ "help", cmd_help },
-{ "403", cmd_403 },
-{ "index", cmd_index },

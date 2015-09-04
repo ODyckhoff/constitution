@@ -46,6 +46,7 @@ typedef struct _db_opts {
 
     void *data;
     void *conn;
+    void *result;
 
 } db_opts;
 

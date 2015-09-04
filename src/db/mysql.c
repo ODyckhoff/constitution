@@ -10,6 +10,10 @@ void mysql_handler( db_opts *dbo ) {
         case DB_CONN:
             db_mysqlconn( dbo );
         break;
+
+        case DB_DCONN:
+            db_closemysql( dbo );
+        break;
     }
 }
 
@@ -31,4 +35,13 @@ void db_mysqlconn( db_opts *dbo ) {
     }
 
     dbo->conn = conn;
+}
+
+void db_closemysql( db_opts *dbo ) {
+
+    if( dbo->result != NULL )
+        mysql_free_result( dbo->result );
+    
+    if( dbo->conn != NULL )
+        mysql_close( dbo->conn );
 }

@@ -5,5 +5,6 @@
 
 void mysql_handler( db_opts *dbo );
 void db_mysqlconn( db_opts *dbo );
+void db_closemysql( db_opts *dbo );
 
 #endif /* __CONSTITUTION_DB_MYSQL_H */
