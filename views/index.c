@@ -7,9 +7,13 @@
 char *cmd_index( ) {
     db_opts *dbo;
     char *buf;
+    char tmp[200];
+    row_t *row;
+    int count = 1;
+    int i;
 
-    buf = malloc( 200 );
-    sprintf( buf, "this is the index page. hurrah<br />\n" );
+    buf = malloc( 100000 );
+    sprintf( buf, "<h1>Index</h1>\nthis is the index page. hurrah<br />\n" );
 
     dbo = db_init( );
 
@@ -18,6 +22,30 @@ char *cmd_index( ) {
     if( db_connect( dbo ) == EXIT_SUCCESS ) {
         strcat( buf, "Woop! Got a DB connection.<br />\n" );
     }
+
+    if( db_query( dbo, "SHOW TABLES;" ) == EXIT_SUCCESS ) {
+        strcat( buf, "Query used is 'SHOW TABLES;'<br />\n<h2>Results</h2>\n" );
+        db_getrows( dbo );
+        row = dbo->rows;
+        strcat( buf, "<pre>\n" );
+        do {
+            sprintf( tmp, "Row %d:\n", count );
+            strcat( buf, tmp );
+            for( i = 0; i < dbo->numfields; i++ ) {
+                sprintf( tmp, "    Field %d = \"%s\",\n", i, row->row[i] );
+                strcat( buf, tmp );
+            }
+            strcat( buf, "\n" );
+            count++;
+        } while( ( row = row->next ) != NULL );
+        strcat( buf, "</pre>\n" );
+    }
+    else {
+        strcat( buf, "Failed to execute query<br />\n" );
+    }
+
+    if( db_dconnect( dbo ) == EXIT_SUCCESS )
+        strcat( buf, "Closed the DB connection.<br />\n" );
 
     strcat( buf, "<a href=\"./help\">Help Page.</a>" );
 

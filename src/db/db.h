@@ -31,8 +31,15 @@ typedef enum {
     DB_CONN,
     DB_DCONN,
     DB_PREP, /* Preparing a query */
-    DB_DATA  /* Pushing data to prepared query */
+    DB_DATA, /* Pushing data to prepared query */
+    DB_FETCHONE,
+    DB_FETCHALL
 } db_op;
+
+typedef struct _row_t {
+    struct _row_t *next;
+    char **row;
+} row_t;
 
 typedef struct _db_opts {
     db_driver driver;
@@ -47,12 +54,19 @@ typedef struct _db_opts {
     void *data;
     void *conn;
     void *result;
+    row_t *row;
+    row_t *rows;
+    int numrows;
+    int numfields;
 
 } db_opts;
 
 db_opts *db_init( );
 int db_free( db_opts *dbo );
 int db_connect( db_opts *dbo );
+int db_dconnect( db_opts *dbo );
+int db_query( db_opts *dbo, char *query );
+int db_getrows( db_opts *dbo );
 void db_handler( db_opts *dbo );
 void db_setdriver( db_opts *dbo, db_driver driver );
 void db_setstatus( db_opts *dbo, db_status status );

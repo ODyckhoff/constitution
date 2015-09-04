@@ -67,6 +67,38 @@ int db_connect( db_opts *dbo ) {
     return EXIT_SUCCESS; 
 }
 
+int db_dconnect( db_opts *dbo ) {
+    if( ! ( dbo->status == DB_CLOSED || 
+            dbo->status == DB_NONE ) ) {
+
+        db_setop( dbo, DB_DCONN, NULL );
+        db_handler( dbo );
+
+        db_setstatus( dbo, DB_CLOSED );
+    }
+
+    return EXIT_SUCCESS;
+}
+
+int db_query( db_opts *dbo, char *query ) {
+
+    if( query == NULL )
+        return 1;
+    if( dbo->status == DB_NONE )
+        return 2;
+    if( dbo->status == DB_CLOSED )
+        return 3;
+
+    db_setop( dbo, DB_QUERY, query );
+    db_handler( dbo );
+    return EXIT_SUCCESS;
+}
+
+int db_getrows( db_opts *dbo ) {
+    db_setop( dbo, DB_FETCHALL, NULL );
+    db_handler( dbo );
+}
+
 void db_handler( db_opts *dbo ) {
 
     switch( dbo->driver ) {
