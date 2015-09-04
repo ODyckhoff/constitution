@@ -1,8 +1,8 @@
 CC=gcc
-CFLAGS=-g -o index.cgi -I src/ -I . -I/usr/include/mysql/
+CFLAGS=-g -o index.cgi -I views/ -I src/ -I . -I/usr/include/mysql/
 DFLAGS=-DVIEWPATH="\"views\""
 LDFLAGS=-L/usr/lib64/mysql -lmysqlclient -lz
-FILES=
+FILES=`find views/ -name "*.c" | xargs echo`
 NUMVIEWS=`find views/ -name "*.h" | wc -l`
 
 # target: all - Default target.
@@ -21,7 +21,7 @@ dispatch:
 	@find views/ -name "*.h" | sed 's/\(.*\)/#include "\1"/' >> src/_dispatch.h
 	@printf "#endif\n" >> src/_dispatch.h
 	
-	@find views/ -name "*.h" | sed 's/views\/\(.*\)\.h/{ "\1", cmd_\1 },/' > src/_tmp
+	@find views/ -name "*.h" | sed 's/views\/\(.*\)\.h/{ "\1", cmd_\1 },/' | awk '{ gsub( "/", "_", $$3 ); print }' > src/_tmp
 	@printf "#include \"_dispatch.h\"\n" > src/_dispatch.c
 	
 	@printf "struct dispatch_table dispatcher[%d] = {\n" $(NUMVIEWS) >> src/_dispatch.c
@@ -29,7 +29,7 @@ dispatch:
 	@sed -i '$$s/,$$//' src/_dispatch.c
 	@printf "};" >> src/_dispatch.c
 	
-	@rm src/_tmp
+#	@rm src/_tmp
 	
 database: dispatch
-	@$(CC) $(CFLAGS) $(DFLAGS) -DNUMVIEWS=$(NUMVIEWS) src/main.c src/dispatch.c src/_dispatch.c views/*.c src/db/*.c src/response.c $(LDFLAGS)
+	@$(CC) $(CFLAGS) $(DFLAGS) -DNUMVIEWS=$(NUMVIEWS) $(FILES) src/*.c src/db/*.c $(LDFLAGS)
