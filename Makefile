@@ -29,7 +29,7 @@ dispatch:
 	@sed -i '$$s/,$$//' src/_dispatch.c
 	@printf "};" >> src/_dispatch.c
 	
-#	@rm src/_tmp
+	@rm src/_tmp
 	
 database: dispatch
 	@$(CC) $(CFLAGS) $(DFLAGS) -DNUMVIEWS=$(NUMVIEWS) $(FILES) src/*.c src/db/*.c $(LDFLAGS)
