@@ -74,10 +74,10 @@ void db_mysqlquery( db_opts *dbo ) {
 
 void db_mysqlgetrow( db_opts *dbo ) {
     MYSQL_ROW tmp;
-    row_t *row = malloc( sizeof( row ) );
+    row_t *row;
 
     if( ( tmp = mysql_fetch_row( dbo->result ) ) != NULL ) {
-        row->row = db_mysqlrowtostr( dbo, &tmp );
+        row = db_mysqlrowtostr( dbo, &tmp );
         dbo->numfields = mysql_num_fields( dbo->result );
     }
     if( dbo->row != NULL )
@@ -89,45 +89,49 @@ void db_mysqlgetrow( db_opts *dbo ) {
 void db_mysqlgetall( db_opts *dbo ) {
     MYSQL_ROW tmp;
     int numrows = 1;
-    row_t *root = malloc( sizeof( row_t ) );
-    row_t *rtmp;
+    row_t *root;
+    row_t *dummy;
 
-    if( root != NULL ) {
-        tmp = mysql_fetch_row( dbo->result );
-        root->row = db_mysqlrowtostr( dbo, &tmp );
-    }
-    else {
-        dbo->numrows = 0;
-        return;
-    }
+    tmp = mysql_fetch_row( dbo->result );
+    dummy = db_mysqlrowtostr( dbo, &tmp );
 
-    rtmp = root;
+    root = dummy;
 
     while( ( tmp = mysql_fetch_row( dbo->result ) )  != NULL ) {
-        rtmp->next = malloc( sizeof( row_t ) );
-
-        rtmp = rtmp->next;
-        rtmp->row = db_mysqlrowtostr( dbo, &tmp );
+        dummy->next = db_mysqlrowtostr( dbo, &tmp );
+        dummy = dummy->next;
+        dummy->next = NULL;
         numrows++;
     }
-
-    rtmp->next = NULL;
 
     dbo->rows = root;
     dbo->numrows = numrows;
     dbo->numfields = mysql_num_fields( dbo->result );
 }
 
-char **db_mysqlrowtostr( db_opts *dbo, MYSQL_ROW *row ) {
+row_t *db_mysqlrowtostr( db_opts *dbo, MYSQL_ROW *row ) {
     MYSQL_ROW tmp = *row;
+    MYSQL_FIELD *field;
+    hashmap_t *hmap = inithmap( 1 );
+    row_t *outrow;
     int i;
     int num = mysql_num_fields( dbo->result );
-    char **strrow = malloc( num * sizeof( char * ) );
+    outrow = malloc( sizeof( row_t ) );
+    outrow->next = NULL;
 
-    for( i = 0; i < num; i++ ) {
-        strrow[i] = malloc( strlen( ( char * ) tmp[i] ) );
-        sprintf( strrow[i], "%s", tmp[i] );
+    if( ! dbo->fields ) {
+        dbo->fields = calloc( num, sizeof( char * ) );
     }
 
-    return strrow;
+    for( i = 0; i < num; i++ ) {
+        field = mysql_fetch_field( dbo->result );
+        if( ! dbo->fields[i] ) {
+            dbo->fields[i] = malloc( strlen( field->name ) + 1 );
+            strcpy( dbo->fields[i], field->name );
+        }
+        puthmap( hmap, dbo->fields[i], tmp[i] );
+    }
+    outrow->row = hmap;
+
+    return outrow;
 }

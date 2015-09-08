@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-g -o index.cgi -I views/ -I src/ -I . -I/usr/include/mysql/
 DFLAGS=-DVIEWPATH="\"views\""
-LDFLAGS=-L/usr/lib64/mysql -lmysqlclient -lz
+LDFLAGS=-L/usr/lib64/mysql -lmysqlclient -lz -lm
 FILES=`find views/ -name "*.c" | xargs echo`
 NUMVIEWS=`find views/ -name "*.h" | wc -l`
 
@@ -32,4 +32,4 @@ dispatch:
 	@rm src/_tmp
 	
 database: dispatch
-	@$(CC) $(CFLAGS) $(DFLAGS) -DNUMVIEWS=$(NUMVIEWS) $(FILES) src/*.c src/db/*.c $(LDFLAGS)
+	@$(CC) $(CFLAGS) $(DFLAGS) -DNUMVIEWS=$(NUMVIEWS) $(FILES) src/*.c src/db/*.c src/util/hashmap.c $(LDFLAGS)

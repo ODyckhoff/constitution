@@ -6,6 +6,8 @@
 #include <string.h>
 #include <mysql.h>
 
+#include "util/hashmap.h"
+
 typedef enum {
     DB_MYSQL,
     DB_SQLITE,
@@ -38,7 +40,7 @@ typedef enum {
 
 typedef struct _row_t {
     struct _row_t *next;
-    char **row;
+    hashmap_t *row;
 } row_t;
 
 typedef struct _db_opts {
@@ -54,6 +56,7 @@ typedef struct _db_opts {
     void *data;
     void *conn;
     void *result;
+    char **fields;
     row_t *row;
     row_t *rows;
     int numrows;

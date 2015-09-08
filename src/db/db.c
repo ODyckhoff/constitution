@@ -169,3 +169,7 @@ void db_setdbdata( db_opts *dbo,
     dbo->host   = host;
     dbo->dbname = dbname;
 }
+
+char *db_getfield( row_t *row, char *key ) {
+    return gethmap( row->row, key );
+}

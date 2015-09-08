@@ -8,6 +8,7 @@ char *cmd_index( ) {
     db_opts *dbo;
     char *buf;
     char tmp[200];
+    char *field;
     row_t *row;
     int count = 1;
     int i;
@@ -23,7 +24,7 @@ char *cmd_index( ) {
         strcat( buf, "Woop! Got a DB connection.<br />\n" );
     }
 
-    if( db_query( dbo, "SHOW TABLES;" ) == EXIT_SUCCESS ) {
+    if( db_query( dbo, "SELECT * FROM links;" ) == EXIT_SUCCESS ) {
         strcat( buf, "Query used is 'SHOW TABLES;'<br />\n<h2>Results</h2>\n" );
         db_getrows( dbo );
         row = dbo->rows;
@@ -32,7 +33,7 @@ char *cmd_index( ) {
             sprintf( tmp, "Row %d:\n", count );
             strcat( buf, tmp );
             for( i = 0; i < dbo->numfields; i++ ) {
-                sprintf( tmp, "    Field %d = \"%s\",\n", i, row->row[i] );
+                sprintf( tmp, "    Field %d (%s) = \"%s\",\n", i, dbo->fields[i], db_getfield( row, dbo->fields[i] ) );
                 strcat( buf, tmp );
             }
             strcat( buf, "\n" );
